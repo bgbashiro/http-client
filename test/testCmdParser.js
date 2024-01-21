@@ -1,14 +1,14 @@
 import should from 'should'
 import { parseArguments } from '../src/cmdparser.js'
 
-const simpleGETRequest = "GET google.com".split(" ");
-const simplePOSTRequest = "POST somepost.com".split(" ");
-const GETRequestWithHeaderShortParams = "GET google.com -h 'Content-Type: application/json'".split(" ");
-const GETRequestWithHeaderLongParams = "GET google.com --header 'Content-Type: application/json'".split(" ");
-const POSTRequstWithBodyShortParams = "POST google.com -b '{lat:42, long:44}'".split(" ")
-const POSTRequstWithBodyLongParams = "POST google.com --body '{lat:42, long:44}'".split(" ")
-const POSTRequstWithBodyAndHeader1 = "POST google.com -h 'Content-Type: application/json' --body '{lat:42, long:44}'".split(" ")
-const POSTRequstWithBodyAndHeader2 = "POST google.com --header 'Content-Type: application/json' -b '{lat:42, long:44}'".split(" ")
+const simpleGETRequest = ["GET", "google.com"];
+const simplePOSTRequest = ["POST", "somepost.com"]
+const GETRequestWithHeaderShortParams = ["GET", "google.com", "-h", "Content-Type: application/json"];
+const GETRequestWithHeaderLongParams = ["GET", "google.com", "--header", "Content-Type: application/json"];
+const POSTRequstWithBodyShortParams = ["POST", "google.com", "-b", "{ lat : 42, long : 44}"];
+const POSTRequstWithBodyLongParams = ["POST", "google.com", "--body", "{lat : 42, long : 44}"];
+const POSTRequstWithBodyAndHeader1 = ["POST", "google.com", "-h", "Content-Type: application/json", "--body", "{ lat : 42, long : 44}"];
+const POSTRequstWithBodyAndHeader2 = ["POST", "google.com", "--header", "Content-Type: application/json", "-b", "{ lat : 42, long : 44}"];
 
 it("test whether error is raised when no argument is given", function () {
     (() => parseArguments([])).should.throwError();
@@ -55,7 +55,7 @@ it("tests body is populated when passed in (short params)", function () {
     parsedArgs.should.have.keys('method', 'url', 'header');
     parsedArgs.should.have.property('method').is.equal('POST');
     parsedArgs.should.have.property('url').is.equal('google.com');
-    parsedArgs.should.have.property('body').and.have.value('lat', 42).and.have.value('long', 44);
+    parsedArgs.should.have.property('body').and.have.properties({'lat': 42, 'long': 44});
 })
 
 it("tests body is populated when passed in (long params)", function () {
@@ -63,7 +63,7 @@ it("tests body is populated when passed in (long params)", function () {
     parsedArgs.should.have.keys('method', 'url', 'header');
     parsedArgs.should.have.property('method').is.equal('POST');
     parsedArgs.should.have.property('url').is.equal('google.com');
-    parsedArgs.should.have.property('body').and.have.value('lat', 42).and.have.value('long', 44);
+    parsedArgs.should.have.property('body').and.have.properties({'lat': 42, 'long': 44});
 })
 
 it("tests both header and body is populated when passed in", function () {
@@ -74,12 +74,12 @@ it("tests both header and body is populated when passed in", function () {
     parsedArgs.should.have.property('method').is.equal('POST');
     parsedArgs.should.have.property('url').is.equal('google.com');
     parsedArgs.should.have.property('header').and.have.value('Content-Type', 'application/json');
-    parsedArgs.should.have.property('body').and.have.value('lat', 42).and.have.value('long', 44);
+    parsedArgs.should.have.property('body').and.have.properties({'lat': 42, 'long': 44});
 
     parsedArgs = parseArguments(POSTRequstWithBodyAndHeader2);
     parsedArgs.should.have.keys('method', 'url', 'header');
     parsedArgs.should.have.property('method').is.equal('POST');
     parsedArgs.should.have.property('url').is.equal('google.com');
     parsedArgs.should.have.property('header').and.have.value('Content-Type', 'application/json');
-    parsedArgs.should.have.property('body').and.have.value('lat', 42).and.have.value('long', 44);
+    parsedArgs.should.have.property('body').and.have.properties({'lat': 42, 'long': 44});
 })
