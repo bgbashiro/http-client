@@ -12,6 +12,7 @@
     "should": "^13.2.3"
   },
   "dependencies": {
-    "minimist": "^1.2.8"
+    "minimist": "^1.2.8",
+    "relaxed-json": "^1.0.3"
   }
 }
