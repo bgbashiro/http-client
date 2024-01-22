@@ -82,6 +82,6 @@ it('DELETE: sets header to application/json if not given (httpbin.org)', functio
 })
 
 it('DELETE: gets response 204 from reqres.in', function () {
-    return handleRequest(DELETErequestWithJSONBodyNoHeader).should.be.fulfilled()
+    return handleRequest(DELETErequestWithJSONBodyExpect204).should.be.fulfilled()
         .should.finally.have.property('status', 204)
 })
