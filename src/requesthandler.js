@@ -30,6 +30,15 @@ async function handleGETRequest(url, header) {
     return reformatResponse(status, content)
 }
 
+function getContentType(header) {
+    // returns Content-Type set in header, defaults to application/json if not specified
+    if (!header) {
+        return 'application/json'
+    } else {
+        return header['Content-Type']?header['Content-Type']:'application/json'
+    }
+}
+
 function prepareBody(contentType, body) {
     if (contentType == "application/json") {
         return JSON.stringify(body)
@@ -43,8 +52,8 @@ function prepareBody(contentType, body) {
 async function handlePOSTRequest(url, header, body) {
     let response = await fetch(url, {
         method: 'POST',
-        headers: header,
-        body: prepareBody(header['Content-Type'], body)
+        headers: header?header:{},
+        body: prepareBody(getContentType(header), body)
     })
 
     let status = response.status;
@@ -56,8 +65,34 @@ async function handlePOSTRequest(url, header, body) {
 async function handlePUTRequest(url, header, body) {
     let response = await fetch(url, {
         method: 'PUT',
-        headers: header,
-        body: prepareBody(header['Content-Type'], body)
+        headers: header?header:{},
+        body: prepareBody(getContentType(header), body)
+    })
+
+    let status = response.status;
+    let content = await response.text();
+    
+    return reformatResponse(status, content)
+}
+
+async function handlePATCHRequest(url, header, body) {
+    let response = await fetch(url, {
+        method: 'PATCH',
+        headers: header?header:{},
+        body: prepareBody(getContentType(header), body)
+    })
+
+    let status = response.status;
+    let content = await response.text();
+    
+    return reformatResponse(status, content)
+}
+
+async function handleDELETERequest(url, header, body) {
+    let response = await fetch(url, {
+        method: 'DELETE',
+        headers: header?header:{},
+        body: prepareBody(getContentType(header), body)
     })
 
     let status = response.status;
@@ -72,7 +107,11 @@ function handleRequest(request) {
     } else if (request.method == "POST") {
         return handlePOSTRequest(request.url, request.header, request.body)
     } else if (request.method == "PUT") {
-        return handlePOSTRequest(request.url, request.header, request.body)
+        return handlePUTRequest(request.url, request.header, request.body)
+    } else if (request.method == "PATCH") {
+        return handlePATCHRequest(request.url, request.header, request.body)
+    } else if (request.method == "DELETE") {
+        return handleDELETERequest(request.url, request.header, request.body)
     } else {
         throw Error(`${request.method} not implemented`);
     }
