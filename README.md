@@ -30,6 +30,7 @@ Or run provided script
 ./httpclient GET https://httpbin.org/get?param=parameter
 ./httpclient POST https://httpbin.org/post -h 'Content-Type: application/json' -b 'fieldA: valueA'
 ./httpclient POST https://httpbin.org/post -h 'Content-Type: application/json' -b 'fieldA: valueA' -b 'fieldB: valueB'
+./httpclient POST https://httpbin.org/post -h 'Content-Type: application/x-www-form-urlencoded' -b 'field: value' -b 'anotherField: betterValue'
 ```
 
 Notes:
