@@ -25,11 +25,27 @@ const POSTrequestWithJSONBody = {
     }
 }
 
+const POSTrequestWithJSONBodyNoHeader = {
+    method: 'POST',
+    url: 'https://httpbin.org/post',
+    body: {
+        "field1": "value1",
+        "field2": "value2",
+    }
+}
+
 const POSTrequestWithURLEncodedBody = {
     method: 'POST',
     url: 'https://httpbin.org/post',
     header: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'field1=value1&field2=value2'
+}
+
+const POSTrequestWithJSONBody2 = {
+    method: 'POST',
+    url: 'https://reqres.in/api/users',
+    header: { 'Content-Type': 'application/json' },
+    body: { 'name': 'Brian', 'job': 'Barista' }
 }
 
 it('gets rejected when URL does not exist', function () {
@@ -55,5 +71,20 @@ it('returns a URL encoded payload as is from httpbin.org', function () {
         .should.finally.have.property('content')
         .have.property('form')
         .have.properties({ 'field1': 'value1', 'field2': 'value2' })
+
+})
+
+it('sets header to application/json if no header given (httpbin.org)', function () {
+    return handleRequest(POSTrequestWithJSONBodyNoHeader).should.be.fulfilled()
+        .should.finally.have.property('content')
+        .have.property('json')
+        .have.properties({ 'field1': 'value1', 'field2': 'value2' })
+
+})
+
+it('returns a JSON payload as is from reqres.in', function () {
+    return handleRequest(POSTrequestWithJSONBody2).should.be.fulfilled()
+        .should.finally.have.property('content')
+        .have.properties(['name', 'job', 'id', 'createdAt'])
 
 })
