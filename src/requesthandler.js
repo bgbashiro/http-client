@@ -21,7 +21,7 @@ async function handleGETRequest(url, header) {
 
     let response = await fetch(url, {
         method: 'GET',
-        headers: header
+        headers: header?header:{}
     });
 
     let status = response.status;
