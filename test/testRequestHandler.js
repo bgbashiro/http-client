@@ -40,14 +40,7 @@ it('shows error when passed parameters are wrong.', function () {
     return handleRequest(GETrequestWithBadParams)
         .should.be.fulfilled()
         .should.finally.have.property('content')
-        .have.property("error", "Missing name parameter")
-})
-
-it('fetches and dumps html content correctly', function () {
-    return handleRequest(GETrequestWithHTMLResponse)
-        .should.be.fulfilled()
-        .should.finally.have.property('content')
-        .and.startWith("<!DOCTYPE html").and.endWith("</html>");
+        .have.property("error", "Missing 'name' parameter")
 })
 
 it('fetches and dumps html content correctly', function () {
