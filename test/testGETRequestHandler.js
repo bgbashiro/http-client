@@ -26,34 +26,45 @@ const GETrequestWithJSONResponse = {
     url: 'https://datausa.io/api/data?drilldowns=Nation&measures=Population&year=latest'
 }
 
-it('get rejected when URL does not exist', function () {
+const GETrequestWithIncorrectUserId = {
+    method: 'GET',
+    url: 'https://reqres.in/api/users/23'
+}
+
+it('GET: get rejected when URL does not exist', function () {
     return handleRequest(GETrequestWithNonExistentURL).should.be.rejected();
 })
 
-it('gets fulfilled with error code when endpoint does not exist', function () {
+it('GET: gets fulfilled with error code when endpoint does not exist', function () {
     return handleRequest(GETrequestWithBadEndpoint)
         .should.be.fulfilled()
         .should.finally.have.property('status', 404);
 })
 
-it('shows error when passed parameters are wrong.', function () {
+it('GET: shows error when passed parameters are wrong.', function () {
     return handleRequest(GETrequestWithBadParams)
         .should.be.fulfilled()
         .should.finally.have.property('content')
         .have.property("error", "Missing 'name' parameter")
 })
 
-it('fetches and dumps html content correctly', function () {
+it('GET: fetches and dumps html content correctly', function () {
     return handleRequest(GETrequestWithHTMLResponse)
         .should.be.fulfilled()
         .should.finally.have.property('content')
         .and.startWith("<!DOCTYPE html").and.endWith("</html>");
 })
 
-it('fetches and dumps JSON content correctly', function () {
+it('GET: fetches and dumps JSON content correctly', function () {
     return handleRequest(GETrequestWithJSONResponse)
         .should.be.fulfilled()
         .should.finally.have.property('content')
         .have.properties(['data', 'source'])
         .property('data').have.size(1)
+})
+
+it('GET: gets 404 error when given incorrect user id', function () {
+    return handleRequest(GETrequestWithIncorrectUserId)
+        .should.be.fulfilled()
+        .should.finally.have.property('status', 404)
 })

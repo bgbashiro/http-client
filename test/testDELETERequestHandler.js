@@ -41,6 +41,12 @@ const DELETErequestWithJSONBodyNoHeader = {
     }
 }
 
+const DELETErequestWithJSONBodyExpect204 = {
+    method: 'DELETE',
+    url: 'https://reqres.in/api/users/2',
+    header: { 'Content-Type': 'application/json' },
+}
+
 it('DELETE: gets rejected when URL does not exist', function () {
     return handleRequest(DELETErequestWithNonExistentURL).should.be.rejected();
 })
@@ -67,10 +73,15 @@ it('DELETE: returns a URL encoded payload as is from httpbin.org', function () {
 
 })
 
-it('DELETE: sets header to application/json if not given (httpbin.org)', function() {
+it('DELETE: sets header to application/json if not given (httpbin.org)', function () {
     return handleRequest(DELETErequestWithJSONBodyNoHeader).should.be.fulfilled()
         .should.finally.have.property('content')
         .have.property('json')
         .have.properties({ 'field1': 'value1', 'field2': 'value2' })
 
+})
+
+it('DELETE: gets response 204 from reqres.in', function () {
+    return handleRequest(DELETErequestWithJSONBodyNoHeader).should.be.fulfilled()
+        .should.finally.have.property('status', 204)
 })
