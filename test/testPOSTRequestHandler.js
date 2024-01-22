@@ -48,17 +48,17 @@ const POSTrequestWithJSONBody2 = {
     body: { 'name': 'Brian', 'job': 'Barista' }
 }
 
-it('gets rejected when URL does not exist', function () {
+it('POST: gets rejected when URL does not exist', function () {
     return handleRequest(POSTrequestWithNonExistentURL).should.be.rejected();
 })
 
-it('gets fulfilled with error code when endpoint does not exist', function () {
+it('POST: gets fulfilled with error code when endpoint does not exist', function () {
     return handleRequest(POSTrequestWithBadEndpoint)
         .should.be.fulfilled()
         .should.finally.have.property('status', 404);
 })
 
-it('returns a JSON payload as is from httpbin.org', function () {
+it('POST: returns a JSON payload as is from httpbin.org', function () {
     return handleRequest(POSTrequestWithJSONBody).should.be.fulfilled()
         .should.finally.have.property('content')
         .have.property('json')
@@ -66,7 +66,7 @@ it('returns a JSON payload as is from httpbin.org', function () {
 
 })
 
-it('returns a URL encoded payload as is from httpbin.org', function () {
+it('POST: returns a URL encoded payload as is from httpbin.org', function () {
     return handleRequest(POSTrequestWithURLEncodedBody).should.be.fulfilled()
         .should.finally.have.property('content')
         .have.property('form')
@@ -74,7 +74,7 @@ it('returns a URL encoded payload as is from httpbin.org', function () {
 
 })
 
-it('sets header to application/json if no header given (httpbin.org)', function () {
+it('POST: sets header to application/json if no header given (httpbin.org)', function () {
     return handleRequest(POSTrequestWithJSONBodyNoHeader).should.be.fulfilled()
         .should.finally.have.property('content')
         .have.property('json')
@@ -82,7 +82,7 @@ it('sets header to application/json if no header given (httpbin.org)', function 
 
 })
 
-it('returns a JSON payload as is from reqres.in', function () {
+it('POST: returns a JSON payload as is from reqres.in', function () {
     return handleRequest(POSTrequestWithJSONBody2).should.be.fulfilled()
         .should.finally.have.property('content')
         .have.properties(['name', 'job', 'id', 'createdAt'])
