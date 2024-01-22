@@ -1,8 +1,11 @@
 import RJSON from 'relaxed-json';
 
-async function handleGETRequest(url) {
+async function handleGETRequest(url, header) {
 
-    let response = await fetch(url);
+    let response = await fetch(url, {
+        method: 'GET',
+        headers: header
+    });
     let status = response.status;
     let content = await response.text();
 
@@ -57,7 +60,7 @@ async function handlePOSTRequest(url, header, body) {
 
 function handleRequest(request) {
     if (request.method == "GET") {
-        return handleGETRequest(request.url);
+        return handleGETRequest(request.url, request.header);
     } else if (request.method == "POST") {
         return handlePOSTRequest(request.url, request.header, request.body)
     } else {
