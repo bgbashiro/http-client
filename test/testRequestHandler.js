@@ -23,7 +23,7 @@ const GETrequestWithHTMLResponse = {
 
 const GETrequestWithJSONResponse = {
     method: 'GET',
-    url: 'https://datausa.io/api/data?drilldowns=Nation&measures=Population'
+    url: 'https://datausa.io/api/data?drilldowns=Nation&measures=Population&year=latest'
 }
 
 it('get rejected when URL does not exist', function () {
