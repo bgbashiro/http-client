@@ -37,4 +37,4 @@ Notes:
 - if there is only one field you want to pass curly brackets `{`, `}` are optional. When same key is used multiple times, lastmost one is used.
 - you can also specify two or more fields by simply repeating `-h`,`-b` flags.
 - the capital cases are **important** when specifying `'Content-Type'`.
-- expected format for headers and body is strictly JSON (although loose formatting is fine, for example, quotes around strings are not necessary), otherwise script will throw an error. If content type is application/x-www-form-urlencoded it gets converted accordingly inside the program. 
+- expected format for headers and body is **strictly** JSON (although loose formatting is fine, for example, quotes around strings are not necessary), otherwise script will throw an error. If content type is application/x-www-form-urlencoded it gets converted accordingly inside the program. 
