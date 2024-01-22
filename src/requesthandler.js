@@ -44,7 +44,20 @@ async function handlePOSTRequest(url, header, body) {
     let response = await fetch(url, {
         method: 'POST',
         headers: header,
-        body: prepareBody(header['Content-type'], body)
+        body: prepareBody(header['Content-Type'], body)
+    })
+
+    let status = response.status;
+    let content = await response.text();
+    
+    return reformatResponse(status, content)
+}
+
+async function handlePUTRequest(url, header, body) {
+    let response = await fetch(url, {
+        method: 'PUT',
+        headers: header,
+        body: prepareBody(header['Content-Type'], body)
     })
 
     let status = response.status;
@@ -57,6 +70,8 @@ function handleRequest(request) {
     if (request.method == "GET") {
         return handleGETRequest(request.url, request.header);
     } else if (request.method == "POST") {
+        return handlePOSTRequest(request.url, request.header, request.body)
+    } else if (request.method == "PUT") {
         return handlePOSTRequest(request.url, request.header, request.body)
     } else {
         throw Error(`${request.method} not implemented`);
