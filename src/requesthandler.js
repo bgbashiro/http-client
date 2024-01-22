@@ -1,13 +1,6 @@
 import RJSON from 'relaxed-json';
 
-async function handleGETRequest(url, header) {
-
-    let response = await fetch(url, {
-        method: 'GET',
-        headers: header
-    });
-    let status = response.status;
-    let content = await response.text();
+function reformatResponse(status, content) {
 
     try {
         content = RJSON.parse(content.trim());
@@ -24,10 +17,23 @@ async function handleGETRequest(url, header) {
     }
 }
 
+async function handleGETRequest(url, header) {
+
+    let response = await fetch(url, {
+        method: 'GET',
+        headers: header
+    });
+
+    let status = response.status;
+    let content = await response.text();
+
+    return reformatResponse(status, content)
+}
+
 function prepareBody(contentType, body) {
-    if (contentType=="application/json") {
+    if (contentType == "application/json") {
         return JSON.stringify(body)
-    } else if (contentType=="application/x-www-form-urlencoded") {
+    } else if (contentType == "application/x-www-form-urlencoded") {
         return new URLSearchParams(body).toString()
     } else {
         return body
@@ -40,22 +46,11 @@ async function handlePOSTRequest(url, header, body) {
         headers: header,
         body: prepareBody(header['Content-type'], body)
     })
+
     let status = response.status;
     let content = await response.text();
-
-    try {
-        content = RJSON.parse(content.trim());
-    } catch (error) {
-        if (!(error instanceof SyntaxError)) {
-            console.log(error)
-        }
-        content = content.trim()
-    }
-
-    return {
-        status,
-        content
-    }
+    
+    return reformatResponse(status, content)
 }
 
 function handleRequest(request) {

@@ -50,7 +50,6 @@ it('returns a JSON payload as is from httpbin.org', function () {
 
 })
 
-
 it('returns a URL encoded payload as is from httpbin.org', function () {
     return handleRequest(POSTrequestWithURLEncodedBody).should.be.fulfilled()
         .should.finally.have.property('content')
