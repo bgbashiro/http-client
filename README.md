@@ -3,25 +3,29 @@
 Sends GET/POST/PUT/PATCH/DELETE requests and dumps response to terminal. Requires `node v20.10.0`
 
 To install necessary packages:
-```
+```bash
 npm install
 ```
 
 To run tests
-```
+```bash
 npm run test
 ```
 To run the client using npm/node
 
-```
-node src/app.js <METHOD> <URL> <HEADERS> <BODY>
+```bash
+node src/app.js <METHOD> <URL> <HEADERS> <BODY> 
+node src/app.js GET https://nytimes.com
+node src/app.js POST https://httpbin.org/post -h 'Content-Type'
+
+# OR use npm sciprt
 npm run start -- <METHOD> <URL> <HEADERS> <BODY>
 npm run start -- GET https://nytimes.com
 npm run start -- POST https://httpbin.org/post -h 'Content-Type'
 ```
 
 Or run provided script
-```
+```bash
 ./httpclient GET https://nytimes.com
 ./httpclient GET https://httpbin.org/get?param=parameter
 ./httpclient POST https://httpbin.org/post -h 'Content-Type: application/json' -b 'fieldA: valueA'
