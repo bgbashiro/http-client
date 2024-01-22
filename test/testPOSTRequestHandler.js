@@ -18,7 +18,7 @@ const POSTrequestWithBadEndpoint = {
 const POSTrequestWithJSONBody = {
     method: 'POST',
     url: 'https://httpbin.org/post',
-    header: { 'Content-type': 'application/json' },
+    header: { 'Content-Type': 'application/json' },
     body: {
         "field1": "value1",
         "field2": "value2",
@@ -28,7 +28,7 @@ const POSTrequestWithJSONBody = {
 const POSTrequestWithURLEncodedBody = {
     method: 'POST',
     url: 'https://httpbin.org/post',
-    header: { 'Content-type': 'application/x-www-form-urlencoded' },
+    header: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'field1=value1&field2=value2'
 }
 
